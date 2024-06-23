@@ -1,6 +1,6 @@
 import invariant from 'tiny-invariant'
 import JSBI from 'jsbi'
-import { ChainId, WETH as _WETH, TradeType, Rounding, Token, TokenAmount, Pair, Route, Trade } from '../src'
+import { ChainId, WMIND as _WETH, TradeType, Rounding, Token, TokenAmount, Pair, Route, Trade } from '../src'
 
 const ADDRESSES = [
   '0x0000000000000000000000000000000000000001',
@@ -8,7 +8,7 @@ const ADDRESSES = [
   '0x0000000000000000000000000000000000000003'
 ]
 const CHAIN_ID = ChainId.TESTNET
-const WETH = _WETH[ChainId.TESTNET]
+const WMIND = _WETH[ChainId.TESTNET]
 const DECIMAL_PERMUTATIONS: [number, number, number][] = [
   [0, 0, 0],
   [0, 9, 18],
@@ -45,7 +45,7 @@ describe('entities', () => {
           ),
           new Pair(
             new TokenAmount(tokens[2], decimalize(1, tokens[2].decimals)),
-            new TokenAmount(WETH, decimalize(1234, WETH.decimals))
+            new TokenAmount(WMIND, decimalize(1234, WMIND.decimals))
           )
         ]
       })
@@ -54,9 +54,9 @@ describe('entities', () => {
       it('Route', () => {
         route = new Route(pairs, tokens[0])
         expect(route.pairs).toEqual(pairs)
-        expect(route.path).toEqual(tokens.concat([WETH]))
+        expect(route.path).toEqual(tokens.concat([WMIND]))
         expect(route.input).toEqual(tokens[0])
-        expect(route.output).toEqual(WETH)
+        expect(route.output).toEqual(WMIND)
       })
 
       it('Price:Route.midPrice', () => {
@@ -105,13 +105,13 @@ describe('entities', () => {
             [
               new Pair(
                 new TokenAmount(tokens[1], decimalize(5, tokens[1].decimals)),
-                new TokenAmount(WETH, decimalize(10, WETH.decimals))
+                new TokenAmount(WMIND, decimalize(10, WMIND.decimals))
               )
             ],
             tokens[1]
           )
           const inputAmount = new TokenAmount(tokens[1], decimalize(1, tokens[1].decimals))
-          const expectedOutputAmount = new TokenAmount(WETH, '1663192997082117548')
+          const expectedOutputAmount = new TokenAmount(WMIND, '1663192997082117548')
           const trade = new Trade(route, inputAmount, TradeType.EXACT_INPUT)
           expect(trade.route).toEqual(route)
           expect(trade.tradeType).toEqual(TradeType.EXACT_INPUT)
@@ -130,7 +130,7 @@ describe('entities', () => {
         })
 
         it('TradeType.EXACT_OUTPUT', () => {
-          const outputAmount = new TokenAmount(WETH, '1663192997082117548')
+          const outputAmount = new TokenAmount(WMIND, '1663192997082117548')
           const expectedInputAmount = new TokenAmount(tokens[1], decimalize(1, tokens[1].decimals))
           const trade = new Trade(route, outputAmount, TradeType.EXACT_OUTPUT)
           expect(trade.route).toEqual(route)
@@ -156,9 +156,9 @@ describe('entities', () => {
                 new Pair(
                   new TokenAmount(tokens[1], decimalize(1, tokens[1].decimals)),
                   new TokenAmount(
-                    WETH,
+                    WMIND,
                     JSBI.add(
-                      decimalize(10, WETH.decimals),
+                      decimalize(10, WMIND.decimals),
 
                       tokens[1].decimals === 9 ? JSBI.BigInt('30090280812437312') : JSBI.BigInt('30090270812437322')
                     )
@@ -166,7 +166,7 @@ describe('entities', () => {
                 )
               ],
               tokens[1],
-              WETH
+              WMIND
             )
             const outputAmount = new TokenAmount(tokens[1], '1')
             const trade = new Trade(route, outputAmount, TradeType.EXACT_INPUT)
@@ -179,7 +179,7 @@ describe('entities', () => {
       })
 
       it('TokenAmount', () => {
-        const amount = new TokenAmount(WETH, '1234567000000000000000')
+        const amount = new TokenAmount(WMIND, '1234567000000000000000')
         expect(amount.toExact()).toEqual('1234.567')
         expect(amount.toExact({ groupSeparator: ',' })).toEqual('1,234.567')
       })
