@@ -10,8 +10,8 @@
   ],
   "repository": "",
   "keywords": [
-    "pancakeswap",
-    "bsc"
+    "mindswap",
+    "msc"
   ],
   "module": "dist/sdk.esm.js",
   "scripts": {
